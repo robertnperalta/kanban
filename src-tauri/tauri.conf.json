@@ -16,7 +16,7 @@
     },
     "bundle": {
       "active": true,
-      "category": "DeveloperTool",
+      "category": "Productivity",
       "copyright": "",
       "deb": {
         "depends": []
@@ -29,7 +29,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "com.robertnperalta.kanban",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -55,11 +55,10 @@
     },
     "windows": [
       {
-        "fullscreen": false,
+        "title": "Kanban",
+        "maximized": true,
         "height": 600,
-        "resizable": true,
-        "title": "kanban",
-        "width": 800
+        "width": 1024
       }
     ]
   }
