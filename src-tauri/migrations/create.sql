@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS tasks (
     list_id INTEGER NOT NULL,
     title VARCHAR(256) NOT NULL,
     description TEXT,
-    time_modified INTEGEREGER,
+    time_modified INTEGER,
     FOREIGN KEY (list_id) REFERENCES Lists(id)
 );
 
