@@ -2,51 +2,26 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <!-- <button @click="connect">Connect</button> -->
-    <button @click="addBoard('test')">Add board</button>
-    <button @click="addList(1, 'list', '0xff0000')">Add list</button>
+    <button @click="testDb">Run Test</button>
   </div>
 </template>
 
 <script>
-import Database from 'tauri-plugin-sql-api'
-var db = null;
+import Db from "../services/Db";
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
   },
   methods: {
-    async connect() {
-      try {
-        db = await Database.load("sqlite:kanban.db");
-        console.log('Success')
-      } catch(e) {
-        console.log(e);
-      }
-      return db;
-    },
-
-    async addBoard(name) {
-      db = await this.connect()
-      try {
-        await db.execute('INSERT INTO boards (id, title) VALUES (NULL,$1)', [
-          name
-        ]);
-      } catch (e) {
-        console.log(e)
-      }
-    },
-
-    async addList(board_id, title, color) {
-      try {
-        await db.execute('INSERT INTO lists (id, board_id, title, color) VALUES (NULL,$1,$2,$3)', [
-          board_id,
-          title,
-          color
-        ]);
-      } catch (e) {
-        console.log(e)
-      }
+    async testDb() {
+      let db = await Db.build();
+      console.log(db);
+      console.log(await db.boards.add("Board 1"));
+      console.log(await db.boards.add("Board 2"));
+      console.log(await db.boards.remove(2));
+      console.log(await db.boards.add("Board 3"));
+      console.log(await db.boards.all());
     }
   }
 }
