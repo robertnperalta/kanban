@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS lists (
     board_id INTEGER NOT NULL,
     title VARCHAR(64) NOT NULL,
     color CHAR(8) NOT NULL,
-    FOREIGN KEY (board_id) REFERENCES Boards(id)
+    FOREIGN KEY (board_id) REFERENCES Boards(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS tasks (
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS tasks (
     title VARCHAR(256) NOT NULL,
     description TEXT,
     time_modified INTEGER,
-    FOREIGN KEY (list_id) REFERENCES Lists(id)
+    FOREIGN KEY (list_id) REFERENCES Lists(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS labels (
@@ -29,6 +29,6 @@ CREATE TABLE IF NOT EXISTS labels (
 CREATE TABLE IF NOT EXISTS assignments (
     task_id INTEGER NOT NULL,
     label_id INTEGER NOT NULL,
-    FOREIGN KEY (task_id) REFERENCES Tasks(id),
-    FOREIGN KEY (label_id) REFERENCES Labels(id)
+    FOREIGN KEY (task_id) REFERENCES Tasks(id) ON DELETE CASCADE,
+    FOREIGN KEY (label_id) REFERENCES Labels(id) ON DELETE CASCADE
 );
