@@ -5,15 +5,11 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
-import useDb from "./services/Db";
+
 export default {
   name: 'App',
   components: {
     HelloWorld
-  },
-  async beforeCreate() {
-    // Run here to initialize db connection before any other components load
-    this.db = await useDb();
   }
 }
 </script>

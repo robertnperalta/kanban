@@ -7,14 +7,16 @@
 </template>
 
 <script>
-import useDb from "../services/Db";
+import dbPromise from "../services/Db";
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
   },
   async beforeCreate() {
-    this.db = await useDb();
+    dbPromise.then(db => {
+      this.db = db;
+    })
   },
   methods: {
     async testDb() {
