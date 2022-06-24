@@ -15,7 +15,6 @@ export default {
   },
   async beforeCreate() {
     this.db = await useDb();
-    console.log("Connecting to DB");
   },
   methods: {
     async testDb() {
