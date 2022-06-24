@@ -21,6 +21,7 @@ var db;
 var initialized = false;
 export default async function useDb() {
   if (!initialized) {
+    console.log("Connecting to db");
     db = await Db.build();
     initialized = true;
   }
