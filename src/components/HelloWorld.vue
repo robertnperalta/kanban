@@ -7,21 +7,25 @@
 </template>
 
 <script>
-import Db from "../services/Db";
+import useDb from "../services/Db";
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
   },
+  async beforeCreate() {
+    this.db = await useDb();
+    console.log("Connecting to DB");
+  },
   methods: {
     async testDb() {
-      let db = await Db.build();
-      console.log(db);
-      console.log(await db.boards.add("Board 1"));
-      console.log(await db.boards.add("Board 2"));
-      console.log(await db.boards.remove(2));
-      console.log(await db.boards.add("Board 3"));
-      console.log(await db.boards.all());
+      // let db = await Db.build();
+      console.log(this.db);
+      console.log(await this.db.boards.add("Board 1"));
+      console.log(await this.db.boards.add("Board 2"));
+      console.log(await this.db.boards.remove(2));
+      console.log(await this.db.boards.add("Board 3"));
+      console.log(await this.db.boards.all());
     }
   }
 }
