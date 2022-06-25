@@ -16,6 +16,13 @@ export default class Boards {
     );
   }
 
+  async update(id, title) {
+    return await this.conn.execute(
+      "UPDATE boards SET title=$1 WHERE id=$2",
+      [title, id]
+    );
+  }
+
   async remove(id) {
     return await this.conn.execute(
         "DELETE FROM boards WHERE id=$1",
