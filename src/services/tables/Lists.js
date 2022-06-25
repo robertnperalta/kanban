@@ -18,10 +18,14 @@ export default class Lists {
 
     async update(id, board_id, title, color) {
         // Note, not to be used to update position
-        return await this.conn.execute(
+        const res = await this.conn.execute(
             "UPDATE lists SET board_id=$1, title=$2, color=$3 WHERE id=$4",
             [board_id, title, color, id]
-        )
+        );
+        if (res.rowsAffected === 0) {
+            throw new Error(`Attempted to update non-existent list ${id}`);
+        }
+        return res;
     }
 
     async remove(id) {
@@ -29,7 +33,7 @@ export default class Lists {
             "SELECT position FROM lists WHERE id=$1",
             [id]
         );
-        if (toRemove.length == 0) {
+        if (toRemove.length === 0) {
             throw new Error(`Removing list ${id}, which does not exist`);
         }
         if (toRemove.length > 1) {

@@ -17,13 +17,27 @@ export default class Boards {
   }
 
   async update(id, title) {
-    return await this.conn.execute(
+    const res = await this.conn.execute(
       "UPDATE boards SET title=$1 WHERE id=$2",
       [title, id]
     );
+    if (res.rowsAffected === 0) {
+      throw new Error(`Attempted to update non-existent board ${id}`);
+    }
+    return res;
   }
 
   async remove(id) {
+    const toRemove = await this.conn.select(
+      "SELECT 1 FROM boards WHERE id=$1",
+      [id]
+    );
+    if (toRemove.length === 0) {
+      throw new Error(`Removing board ${id}, which does not exist`);
+    }
+    if (toRemove.length > 1) {
+      throw new Error(`Removing board ${id}, which matches multiple rows`);
+    }
     return await this.conn.execute(
         "DELETE FROM boards WHERE id=$1",
         [id]

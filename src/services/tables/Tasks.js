@@ -17,13 +17,27 @@ export default class Tasks {
     }
     
     async update(id, list_id, title, description) {
-        return await this.conn.execute(
+        const res = await this.conn.execute(
             "UPDATE tasks SET list_id=$1, title=$2, description=$3, time_modified=$4 WHERE id=$5",
             [list_id, title, description, Date.now(), id]
         );
+        if (res.rowsAffected === 0) {
+            throw new Error(`Attempted to update non-existent task ${id}`);
+        }
+        return res;
     }
 
     async remove(id) {
+        const toRemove = await this.conn.select(
+            "SELECT 1 FROM tasks WHERE id=$1",
+            [id]
+        );
+        if (toRemove.length === 0) {
+            throw new Error(`Removing task ${id}, which does not exist`);
+        }
+        if (toRemove.length > 1) {
+            throw new Error(`Removing task ${id}, which matches multiple rows`);
+        }
         return await this.conn.execute(
             "DELETE FROM tasks WHERE id=$1",
             [id]
