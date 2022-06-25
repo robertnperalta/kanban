@@ -10,10 +10,11 @@ export default class Labels {
     }
 
     async add(label, color) {
-        return await this.conn.execute(
+        const res = await this.conn.execute(
             "INSERT INTO labels (id, label, color) VALUES (NULL, $1, $2)",
             [label, color]
         );
+        return res.lastInsertId;
     }
     
     async update(id, label, color) {
@@ -24,7 +25,7 @@ export default class Labels {
         if (res.rowsAffected === 0) {
             throw new Error(`Attempted to update non-existent label ${id}`);
         }
-        return res;
+        return res.rowsAffected;
     }
 
     async remove(id) {
@@ -38,9 +39,10 @@ export default class Labels {
         if (toRemove.length > 1) {
             throw new Error(`Removing label ${id}, which matches multiple rows`);
         }
-        return await this.conn.execute(
+        const res = await this.conn.execute(
             "DELETE FROM labels WHERE id=$1",
             [id]
         );
+        return res.rowsAffected;
     }
 }

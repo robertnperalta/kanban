@@ -10,10 +10,11 @@ export default class Boards {
   }
 
   async add(title) {
-    return await this.conn.execute(
+    const res = await this.conn.execute(
         "INSERT INTO boards (id, title) VALUES (NULL, $1)",
         [title]
     );
+    return res.lastInsertId;
   }
 
   async update(id, title) {
@@ -24,7 +25,7 @@ export default class Boards {
     if (res.rowsAffected === 0) {
       throw new Error(`Attempted to update non-existent board ${id}`);
     }
-    return res;
+    return res.rowsAffected;
   }
 
   async remove(id) {
@@ -38,9 +39,10 @@ export default class Boards {
     if (toRemove.length > 1) {
       throw new Error(`Removing board ${id}, which matches multiple rows`);
     }
-    return await this.conn.execute(
+    const res = await this.conn.execute(
         "DELETE FROM boards WHERE id=$1",
         [id]
     );
+    return res.rowsAffected;
   }
 }

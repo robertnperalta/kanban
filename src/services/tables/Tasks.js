@@ -10,10 +10,11 @@ export default class Tasks {
     }
 
     async add(list_id, title, description) {
-        return await this.conn.execute(
+        const res = await this.conn.execute(
             "INSERT INTO tasks (id, list_id, title, description, time_modified) VALUES (NULL, $1, $2, $3, $4)",
             [list_id, title, description, Date.now()]
         );
+        return res.lastInsertId;
     }
     
     async update(id, list_id, title, description) {
@@ -24,7 +25,7 @@ export default class Tasks {
         if (res.rowsAffected === 0) {
             throw new Error(`Attempted to update non-existent task ${id}`);
         }
-        return res;
+        return res.rowsAffected;
     }
 
     async remove(id) {
@@ -38,9 +39,10 @@ export default class Tasks {
         if (toRemove.length > 1) {
             throw new Error(`Removing task ${id}, which matches multiple rows`);
         }
-        return await this.conn.execute(
+        const res = await this.conn.execute(
             "DELETE FROM tasks WHERE id=$1",
             [id]
         );
+        return res.rowsAffected;
     }
 }

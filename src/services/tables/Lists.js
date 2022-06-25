@@ -10,10 +10,11 @@ export default class Lists {
     }
 
     async add(board_id, position, title, color) {
-        return await this.conn.execute(
+        const res = await this.conn.execute(
             "INSERT INTO lists (id, board_id, position, title, color) VALUES (NULL, $1, $2, $3, $4)",
             [board_id, position, title, color]
         );
+        return res.lastInsertId;
     }
 
     async update(id, board_id, title, color) {
@@ -25,7 +26,7 @@ export default class Lists {
         if (res.rowsAffected === 0) {
             throw new Error(`Attempted to update non-existent list ${id}`);
         }
-        return res;
+        return res.rowsAffected;
     }
 
     async remove(id) {
@@ -48,6 +49,6 @@ export default class Lists {
             "UPDATE lists SET position = position - 1 WHERE position > $1",
             [positionRemoving]
         );
-        return res;
+        return res.rowsAffected;
     }
 }
