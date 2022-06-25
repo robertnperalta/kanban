@@ -14,9 +14,7 @@ export default {
     msg: String
   },
   async beforeCreate() {
-    dbPromise.then(db => {
-      this.db = db;
-    })
+    this.db = await dbPromise;
   },
   methods: {
     async testDb() {
