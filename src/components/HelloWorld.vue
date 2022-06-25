@@ -27,6 +27,13 @@ export default {
       console.log(await this.db.boards.remove(2));
       console.log(await this.db.boards.add("Board 3"));
       console.log(await this.db.boards.all());
+      console.log(await this.db.lists.add(1, "List 1", "0xffffff"));
+      console.log(await this.db.lists.add(1, "List 2", "0xffffff"));
+      console.log(await this.db.lists.add(1, "List 3", "0xffffff"));
+      console.log(await this.db.lists.add(1, "List 4", "0xffffff"));
+      console.log(await this.db.lists.all());
+      console.log(await this.db.lists.remove(2));
+      console.log(await this.db.lists.all());
     }
   }
 }
