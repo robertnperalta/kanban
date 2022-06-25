@@ -1,11 +1,11 @@
 [package]
-name = "Kanban"
+name = "kanban"
 version = "0.1.0"
 description = "A simple, purely-local kanban board"
 authors = ["Robert Peralta"]
 license = ""
 repository = ""
-default-run = "Kanban"
+default-run = "kanban"
 edition = "2021"
 rust-version = "1.57"
 
