@@ -2,6 +2,7 @@ import Database from "tauri-plugin-sql-api";
 import Boards from "./tables/Boards";
 import Lists from "./tables/Lists";
 import Tasks from "./tables/Tasks";
+import Labels from "./tables/Labels";
 
 class Db {
   constructor(conn) {
@@ -13,6 +14,7 @@ class Db {
     this.boards = new Boards(this.conn);
     this.lists = new Lists(this.conn);
     this.tasks = new Tasks(this.conn);
+    this.labels = new Labels(this.conn);
   }
 
   static async build() {
