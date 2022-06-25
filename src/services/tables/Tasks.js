@@ -45,4 +45,30 @@ export default class Tasks {
         );
         return res.rowsAffected;
     }
+
+    async addLabel(id, label_id) {
+        const res = await this.conn.execute(
+            "INSERT INTO assignments (task_id, label_id) VALUES ($1, $2)",
+            [id, label_id]
+        );
+        return res.lastInsertId;
+    }
+
+    async removeLabel(id, label_id) {
+        const toRemove = await this.conn.select(
+            "SELECT 1 FROM assignments WHERE task_id=$1 AND label_id=$2",
+            [id, label_id]
+        );
+        if (toRemove.length === 0) {
+            throw new Error(`Removing assignment between task ${id} and label ${label_id}, which does not exist`);
+        }
+        if (toRemove.length > 1) {
+            throw new Error(`Removing assignment between task ${id} and label ${label_id}, which matches multiple rows`);
+        }
+        const res = await this.conn.execute(
+            "DELETE FROM assignments WHERE task_id=$1 AND label_id=$2",
+            [id, label_id]
+        );
+        return res.rowsAffected;
+    }
 }
