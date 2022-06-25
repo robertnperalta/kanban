@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS boards (
     id INTEGER PRIMARY KEY,
-    title VARCHAR(64) NOT NULL
+    title VARCHAR(64) NOT NULL,
+    last_viewed BOOLEAN DEFAULT false
 );
 
 CREATE TABLE IF NOT EXISTS lists (

@@ -45,4 +45,13 @@ export default class Boards {
     );
     return res.rowsAffected;
   }
+
+  async view(id) {
+    const res = this.conn.execute(
+      "UPDATE boards SET last_viewed=false WHERE last_viewed=true;" +
+      "UPDATE boards SET last_viewed=true WHERE id=$1",
+      [id]
+    );
+    return res.rowsAffected;
+  }
 }
